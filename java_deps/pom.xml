@@ -225,14 +225,23 @@
     </dependency>
     <dependency>
       <groupId>org.ow2.asm</groupId>
-      <artifactId>asm</artifactId>
-      <version>5.0.4</version>
-      <scope>provided</scope>
+      <artifactId>asm-all</artifactId>
+      <version>5.1</version>
     </dependency>
     <dependency>
       <groupId>com.google.protobuf</groupId>
       <artifactId>protobuf-java</artifactId>
       <version>3.3.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.bitbucket.mstrobel</groupId>
+      <artifactId>procyon-core</artifactId>
+      <version>0.5.32</version>
+    </dependency>
+    <dependency>
+      <groupId>org.bitbucket.mstrobel</groupId>
+      <artifactId>procyon-compilertools</artifactId>
+      <version>0.5.32</version>
     </dependency>
   </dependencies>
 </project>

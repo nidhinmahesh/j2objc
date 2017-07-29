@@ -26,6 +26,7 @@ import java.util.Map;
 
 /*-[
 #import "java/lang/AssertionError.h"
+#import "java_lang_Thread.h"
 #import "objc-sync.h"
 #import <pthread.h>
 ]-*/
@@ -142,6 +143,11 @@ public class Thread implements Runnable {
 
     void uncaughtException(Thread t, Throwable e);
   }
+
+  // Fields accessed reflectively by ThreadLocalRandom.
+  long threadLocalRandomSeed;
+  int threadLocalRandomProbe;
+  int threadLocalRandomSecondarySeed;
 
   /**
    * Holds the default handler for uncaught exceptions, in case there is one.
@@ -347,11 +353,6 @@ public class Thread implements Runnable {
   }
 
   /*-[
-  void javaThreadDestructor(void *javaThread) {
-    JavaLangThread *thread = (JavaLangThread *)javaThread;
-    [thread exit];
-    [thread release];
-  }
 
   void *start_routine(void *arg) {
     JavaLangThread *thread = (JavaLangThread *)arg;
@@ -378,9 +379,7 @@ public class Thread implements Runnable {
    * Create a Thread wrapper around the main native thread.
    */
   private static native void initializeThreadClass() /*-[
-    if (pthread_key_create(&java_thread_key, &javaThreadDestructor)) {
-      @throw create_JavaLangAssertionError_initWithId_(@"Failed to create pthread key.");
-    }
+    initJavaThreadKeyOnce();
     NativeThread *nt = [[[NativeThread alloc] init] autorelease];
     nt->t = pthread_self();
     JavaLangThread *mainThread = JavaLangThread_createMainThreadWithId_(nt);
@@ -426,7 +425,7 @@ public class Thread implements Runnable {
     pthread_create(&nt->t, &attr, &start_routine, [self retain]);
   ]-*/;
 
-  private void exit() {
+  void exit() {
     state = STATE_TERMINATED;
     if (threadGroup != null) {
       threadGroup.threadTerminated(this);

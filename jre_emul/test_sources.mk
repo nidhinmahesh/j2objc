@@ -17,14 +17,12 @@
 # Author: Tom Ball, Keith Stanger
 
 SUPPORT_SOURCES = \
-    JSR166TestCase.java \
     android/test/MoreAsserts.java \
     android/text/SpannableTest.java \
     bar/Third.java \
     com/google/j2objc/NativeUtil.java \
     com/google/j2objc/ObjectTest.java \
     com/google/j2objc/TestAnnotation.java \
-    com/google/j2objc/ThreadTest.java \
     com/google/j2objc/java8/Lambdas.java \
     com/google/j2objc/mappedpkg/TestClass.java \
     com/google/j2objc/mappedpkg/package-info.java \
@@ -41,6 +39,7 @@ SUPPORT_SOURCES = \
     java/lang/test/Example.java \
     java/lang/test/package-info.java \
     jsr166/BlockingQueueTest.java \
+    jsr166/CollectionImplementation.java \
     jsr166/JSR166TestCase.java \
     libcore/java/lang/reflect/package-info.java \
     libcore/java/net/AbstractCookiesTest.java \
@@ -49,7 +48,6 @@ SUPPORT_SOURCES = \
     libcore/java/nio/charset/OldCharset_AbstractTest.java \
     libcore/java/util/ServiceLoaderTestInterface.java \
     libcore/java/util/zip/AbstractZipFileTest.java \
-    libcore/javax/net/ssl/TestSSLContext.java \
     libcore/util/SerializationTester.java \
     okio/MockSink.java \
     okio/TestUtil.java \
@@ -160,33 +158,56 @@ SUPPORT_SOURCES = \
 NATIVE_SOURCES = dalvik_system_JniTest.cpp
 
 TEST_SOURCES := \
-    AbstractExecutorServiceTest.java \
-    AbstractQueueTest.java \
-    ArrayBlockingQueueTest.java \
-    ConcurrentHashMapTest.java \
-    CopyOnWriteArrayListTest.java \
-    CopyOnWriteArraySetTest.java \
-    CountDownLatchTest.java \
-    CyclicBarrierTest.java \
+    jsr166/AbstractExecutorServiceTest.java \
+    jsr166/AbstractQueueTest.java \
+    jsr166/ArrayBlockingQueueTest.java \
+    jsr166/ArrayDequeTest.java \
+    jsr166/ConcurrentHashMapTest.java \
+    jsr166/ConcurrentSkipListMapTest.java \
+    jsr166/ConcurrentSkipListSetTest.java \
+    jsr166/ConcurrentSkipListSubMapTest.java \
+    jsr166/ConcurrentSkipListSubSetTest.java \
+    jsr166/CountedCompleterTest.java \
+    jsr166/CopyOnWriteArrayListTest.java \
+    jsr166/CopyOnWriteArraySetTest.java \
+    jsr166/CountDownLatchTest.java \
+    jsr166/CyclicBarrierTest.java \
     DateFormatTest.java \
-    DelayQueueTest.java \
-    ExchangerTest.java \
-    ExecutorCompletionServiceTest.java \
-    ExecutorsTest.java \
-    FutureTaskTest.java \
-    LinkedBlockingQueueTest.java \
-    LinkedListTest.java \
+    jsr166/DelayQueueTest.java \
+    jsr166/EntryTest.java \
+    jsr166/ExchangerTest.java \
+    jsr166/ExecutorCompletionServiceTest.java \
+    jsr166/ExecutorsTest.java \
+    jsr166/ForkJoinPool8Test.java \
+    jsr166/ForkJoinPoolTest.java \
+    jsr166/ForkJoinTask8Test.java \
+    jsr166/ForkJoinTaskTest.java \
+    jsr166/FutureTaskTest.java \
+    jsr166/LinkedBlockingDequeTest.java \
+    jsr166/LinkedBlockingQueueTest.java \
+    jsr166/LinkedListTest.java \
+    jsr166/PhaserTest.java \
     MaxFloatingPointTest.java \
     NoPackageTest.java \
     PackagePrefixesTest.java \
-    PriorityBlockingQueueTest.java \
-    PriorityQueueTest.java \
+    jsr166/PriorityBlockingQueueTest.java \
+    jsr166/PriorityQueueTest.java \
     SerializationTest.java \
-    ScheduledExecutorTest.java \
-    SynchronousQueueTest.java \
-    SystemTest.java \
-    ThreadPoolExecutorTest.java \
-    TimeUnitTest.java \
+    jsr166/RecursiveActionTest.java \
+    jsr166/RecursiveTaskTest.java \
+    jsr166/ScheduledExecutorSubclassTest.java \
+    jsr166/ScheduledExecutorTest.java \
+    jsr166/SynchronousQueueTest.java \
+    jsr166/SystemTest.java \
+    jsr166/ThreadLocalRandomTest.java \
+    jsr166/ThreadPoolExecutorSubclassTest.java \
+    jsr166/ThreadTest.java \
+    jsr166/TreeMapTest.java \
+    jsr166/TreeSetTest.java \
+    jsr166/TreeSubMapTest.java \
+    jsr166/TreeSubSetTest.java \
+    jsr166/ThreadPoolExecutorTest.java \
+    jsr166/TimeUnitTest.java \
     UTF16EncodingTest.java \
     android/text/SpannableStringBuilderTest.java \
     android/text/SpannableStringTest.java \
@@ -197,6 +218,7 @@ TEST_SOURCES := \
     com/google/j2objc/ClassTest.java \
     com/google/j2objc/EnvironmentUtil.java \
     com/google/j2objc/FieldTest.java \
+    com/google/j2objc/IterableTest.java \
     com/google/j2objc/LinkedBlockingQueueTest.java \
     com/google/j2objc/LinkedListTest.java \
     com/google/j2objc/MemoryTest.java \
@@ -205,6 +227,7 @@ TEST_SOURCES := \
     com/google/j2objc/ReflectionTest.java \
     com/google/j2objc/RetainedWithTest.java \
     com/google/j2objc/StringTest.java \
+    com/google/j2objc/ThreadTest.java \
     com/google/j2objc/ThrowableTest.java \
     com/google/j2objc/io/AsyncPipedNSInputStreamAdapterTest.java \
     com/google/j2objc/java8/CreationReferenceTest.java \
@@ -514,7 +537,6 @@ TEST_SOURCES := \
     org/apache/harmony/luni/tests/java/util/CollectionsTest.java \
     org/apache/harmony/luni/tests/java/util/EmptyStackExceptionTest.java \
     org/apache/harmony/luni/tests/java/util/EnumSetTest.java \
-    org/apache/harmony/luni/tests/java/util/EventObjectTest.java \
     org/apache/harmony/luni/tests/java/util/HashSetTest.java \
     org/apache/harmony/luni/tests/java/util/IdentityHashMapTest.java \
     org/apache/harmony/luni/tests/java/util/LinkedHashSetTest.java \
@@ -602,16 +624,26 @@ TEST_SOURCES := \
     org/apache/harmony/tests/java/text/NumberFormatTest.java \
     org/apache/harmony/tests/java/text/ParsePositionTest.java \
     org/apache/harmony/tests/java/text/SimpleDateFormatTest.java \
+    org/apache/harmony/tests/java/util/AbstractMapTest.java \
+    org/apache/harmony/tests/java/util/BitSetTest.java \
     org/apache/harmony/tests/java/util/CalendarTest.java \
     org/apache/harmony/tests/java/util/CurrencyTest.java \
     org/apache/harmony/tests/java/util/DateTest.java \
+    org/apache/harmony/tests/java/util/EventObjectTest.java \
+    org/apache/harmony/tests/java/util/FormattableFlagsTest.java \
     org/apache/harmony/tests/java/util/FormatterTest.java \
     org/apache/harmony/tests/java/util/GregorianCalendarTest.java \
     org/apache/harmony/tests/java/util/HashMapTest.java \
     org/apache/harmony/tests/java/util/HashtableTest.java \
     org/apache/harmony/tests/java/util/LinkedHashMapTest.java \
+    org/apache/harmony/tests/java/util/ListResourceBundleTest.java \
     org/apache/harmony/tests/java/util/LocaleTest.java \
+    org/apache/harmony/tests/java/util/ObservableTest.java \
+    org/apache/harmony/tests/java/util/PropertyResourceBundleTest.java \
+    org/apache/harmony/tests/java/util/ResourceBundleTest.java \
     org/apache/harmony/tests/java/util/SimpleTimeZoneTest.java \
+    org/apache/harmony/tests/java/util/TimerTaskTest.java \
+    org/apache/harmony/tests/java/util/TimerTest.java \
     org/apache/harmony/tests/java/util/TimeZoneTest.java \
     org/apache/harmony/tests/java/util/zip/Adler32Test.java \
     org/apache/harmony/tests/java/util/zip/CRC32Test.java \
@@ -630,6 +662,15 @@ TEST_SOURCES := \
     org/apache/harmony/tests/java/util/zip/ZipFileTest.java \
     org/apache/harmony/tests/java/util/zip/ZipInputStreamTest.java \
     org/apache/harmony/tests/java/util/zip/ZipOutputStreamTest.java \
+    org/apache/harmony/tests/javax/net/ssl/SSLEngineResultHandshakeStatusTest.java \
+    org/apache/harmony/tests/javax/net/ssl/SSLEngineResultStatusTest.java \
+    org/apache/harmony/tests/javax/net/ssl/SSLEngineResultTest.java \
+    org/apache/harmony/tests/javax/net/ssl/SSLExceptionTest.java \
+    org/apache/harmony/tests/javax/net/ssl/SSLHandshakeExceptionTest.java \
+    org/apache/harmony/tests/javax/net/ssl/SSLKeyExceptionTest.java \
+    org/apache/harmony/tests/javax/net/ssl/SSLPeerUnverifiedExceptionTest.java \
+    org/apache/harmony/tests/javax/net/ssl/SSLProtocolExceptionTest.java \
+    org/apache/harmony/tests/javax/net/ssl/SSLSessionBindingEventTest.java \
     org/apache/harmony/tests/javax/security/cert/CertificateEncodingExceptionTest.java \
     org/apache/harmony/tests/javax/security/cert/CertificateExceptionTest.java \
     org/apache/harmony/tests/javax/security/cert/CertificateExpiredExceptionTest.java \
@@ -650,15 +691,6 @@ TEST_SOURCES := \
     org/xmlpull/v1/XmlPullParserFactoryTest.java \
     sun/misc/UnsafeTest.java \
     tests/api/java/lang/reflect/ProxyTest.java \
-    tests/api/java/util/AbstractMapTest.java \
-    tests/api/java/util/BitSetTest.java \
-    tests/api/java/util/FormattableFlagsTest.java \
-    tests/api/java/util/ListResourceBundleTest.java \
-    tests/api/java/util/ObservableTest.java \
-    tests/api/java/util/PropertyResourceBundleTest.java \
-    tests/api/java/util/ResourceBundleTest.java \
-    tests/api/java/util/TimerTaskTest.java \
-    tests/api/java/util/TimerTest.java \
     tests/security/cert/X509Certificate2Test.java \
     tests/security/interfaces/RSAKeyTest.java \
     tests/security/interfaces/RSAPrivateKeyTest.java \
@@ -688,7 +720,7 @@ TEST_SOURCES := \
     tests/targets/security/MessageDigestTestSHA512.java \
 
 SUITE_SOURCES = \
-    ConcurrencyTests.java \
+    jsr166/ConcurrencyTests.java \
     com/google/j2objc/ReflectionTests.java \
     com/google/j2objc/java8/SmallTests.java \
     libcore/java/io/SmallTests.java \
@@ -719,7 +751,7 @@ SUITE_SOURCES := $(SUITE_SOURCES) \
 endif
 
 TESTS_TO_SKIP = \
-    ExchangerTest.java
+    jsr166/ExchangerTest.java
 
 FAILING_TESTS = \
     libcore/java/text/DateFormatSymbolsTest.java
@@ -764,6 +796,7 @@ HARMONY_TEST_RESOURCES_SRCS = \
     tests/resources/hyts_gInput.txt.gz
 ANDROID_TEST_RESOURCES_SRCS = \
     META-INF/services/libcore.java.util.ServiceLoaderTestInterface \
+    org/apache/harmony/tests/java/util/TestUtf8ResourceBundle.properties \
     tests/targets/security/MD5.check \
     tests/targets/security/MD5.data \
     tests/targets/security/SHA-1.check \

@@ -107,7 +107,8 @@ public class FunctionizerTest extends GenerationTest {
         "return self->hello_;");
   }
 
-  // Verify there isn't any super method invocations in functions.
+  // Verify a method with super invocations can be funcitonized if those super invocations can also
+  // be functionized.
   public void testSuperMethodInvocationInFunction() throws IOException {
     String translation = translateSourceFile(
         "class A { "
@@ -120,11 +121,11 @@ public class FunctionizerTest extends GenerationTest {
         + "  void use() { test1(); test2(); }}}",
         "A", "A.m");
     assertTranslatedLines(translation,
-        "- (NSString *)test1 {",
-        "return [super hello];");
+        "NSString *A_B_test1(A_B *self) {",
+        "return A_hello(self);");
     assertTranslatedLines(translation,
-        "- (NSString *)test2 {",
-        "return [super shout];");
+        "NSString *A_B_test2(A_B *self) {",
+        "return A_shout(self);");
   }
 
   // Verify functions can call other functions, correctly passing the instance variable.
@@ -527,5 +528,66 @@ public class FunctionizerTest extends GenerationTest {
     translation = getTranslatedFile("Test.m");
     assertNotInTranslation(translation, "new_Test_init");
     assertNotInTranslation(translation, "create_Test_init");
+  }
+
+  public void testWrapperAndReflectionStripping() throws IOException {
+    addSourceFile(
+        "class Test { public Test() {} public static void foo() {} private static void bar() {} }",
+        "Test.java");
+    String initSig = "- (instancetype)init";
+    String initDisallowedSig = "- (instancetype)init NS_UNAVAILABLE";
+    String fooSig = "+ (void)foo";
+    String barSig = "+ (void)bar";
+
+    // No reflection or wrapper stripping.
+    String header = translateSourceFile("Test", "Test.h");
+    String source = getTranslatedFile("Test.m");
+    assertTranslation(header, initSig);
+    assertTranslation(header, fooSig);
+    assertNotInTranslation(header, barSig);
+    assertTranslation(source, initSig);
+    assertTranslation(source, fooSig);
+    assertTranslation(source, barSig);
+
+    // Reflection stripped: Private static method wrapper is removed.
+    options.setStripReflection(true);
+    header = translateSourceFile("Test", "Test.h");
+    source = getTranslatedFile("Test.m");
+    assertTranslation(header, initSig);
+    assertTranslation(header, fooSig);
+    assertNotInTranslation(header, barSig);
+    assertTranslation(source, initSig);
+    assertTranslation(source, fooSig);
+    assertNotInTranslation(source, barSig);
+
+    // Reflection not stripped, wrapper methods stripped: no declarations in the header.
+    options.setStripReflection(false);
+    options.setEmitWrapperMethods(false);
+    header = translateSourceFile("Test", "Test.h");
+    source = getTranslatedFile("Test.m");
+    assertTranslation(header, initDisallowedSig);
+    assertNotInTranslation(header, fooSig);
+    assertNotInTranslation(header, barSig);
+    assertTranslation(source, initSig);
+    assertTranslation(source, fooSig);
+    assertTranslation(source, barSig);
+
+    // Both reflection and wrapper methods stripped: no declarations or implementations.
+    options.setStripReflection(true);
+    header = translateSourceFile("Test", "Test.h");
+    source = getTranslatedFile("Test.m");
+    assertTranslation(header, initDisallowedSig);
+    assertNotInTranslation(header, fooSig);
+    assertNotInTranslation(header, barSig);
+    assertNotInTranslation(source, initSig);
+    assertNotInTranslation(source, fooSig);
+    assertNotInTranslation(source, barSig);
+  }
+
+  public void testDisallowedConstructorsWithNoWrapperMethods() throws IOException {
+    options.setDisallowInheritedConstructors(true);
+    options.setEmitWrapperMethods(false);
+    String translation = translateSourceFile("class A {}", "A", "A.h");
+    assertTranslation(translation, "- (instancetype)init NS_UNAVAILABLE;");
   }
 }

@@ -51,6 +51,7 @@ NATIVE_JRE_SOURCES_CORE = \
   java_lang_Long.m \
   java_lang_Math.m \
   java_lang_StrictMath.m \
+  java_lang_Thread.m \
   java_util_regex_Matcher.m \
   java_util_regex_Pattern.m \
   jni.m \
@@ -626,6 +627,7 @@ JAVA_PRIVATE_SOURCES_CORE = \
   sun/reflect/CallerSensitive.java \
   sun/reflect/Reflection.java \
   sun/reflect/misc/ReflectUtil.java \
+  sun/util/ResourceBundleEnumeration.java \
   sun/util/calendar/AbstractCalendar.java \
   sun/util/calendar/BaseCalendar.java \
   sun/util/calendar/CalendarDate.java \
@@ -648,7 +650,8 @@ JAVA_PRIVATE_SOURCES_CORE = \
   sun/util/locale/UnicodeLocaleExtension.java \
   sun/util/logging/LoggingProxy.java \
   sun/util/logging/LoggingSupport.java \
-  sun/util/logging/PlatformLogger.java
+  sun/util/logging/PlatformLogger.java \
+  java/util/concurrent/Helpers.java
 
 JAVA_PUBLIC_SOURCES_IO = \
   java/io/CharArrayReader.java \
@@ -915,6 +918,7 @@ JAVA_PRIVATE_SOURCES_CHANNELS = \
   java/nio/SelectorProviderImpl.java \
   java/nio/ServerSocketChannelImpl.java \
   java/nio/SocketChannelImpl.java \
+  sun/misc/LRUCache.java \
   sun/nio/ch/ChannelInputStream.java
 
 JAVA_PUBLIC_SOURCES_SECURITY = \
@@ -1275,12 +1279,16 @@ JAVA_PUBLIC_SOURCES_SSL = \
   javax/net/ssl/KeyManagerFactory.java \
   javax/net/ssl/KeyManagerFactorySpi.java \
   javax/net/ssl/ManagerFactoryParameters.java \
+  javax/net/ssl/SNIHostName.java \
+  javax/net/ssl/SNIMatcher.java \
+  javax/net/ssl/SNIServerName.java \
   javax/net/ssl/SSLContext.java \
   javax/net/ssl/SSLContextSpi.java \
   javax/net/ssl/SSLEngine.java \
   javax/net/ssl/SSLEngineResult.java \
   javax/net/ssl/SSLException.java \
   javax/net/ssl/SSLHandshakeException.java \
+  javax/net/ssl/SSLKeyException.java \
   javax/net/ssl/SSLParameters.java \
   javax/net/ssl/SSLPeerUnverifiedException.java \
   javax/net/ssl/SSLProtocolException.java \
@@ -1292,6 +1300,7 @@ JAVA_PUBLIC_SOURCES_SSL = \
   javax/net/ssl/SSLSessionContext.java \
   javax/net/ssl/SSLSocket.java \
   javax/net/ssl/SSLSocketFactory.java \
+  javax/net/ssl/StandardConstants.java \
   javax/net/ssl/TrustManager.java \
   javax/net/ssl/TrustManagerFactory.java \
   javax/net/ssl/TrustManagerFactorySpi.java \
